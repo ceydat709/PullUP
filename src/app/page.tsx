@@ -1,4 +1,5 @@
 import Image from "next/image";
+import AuthForm from "@/components/AuthForm";
 
 export default function Home() {
   return (
@@ -50,7 +51,11 @@ export default function Home() {
             Read our docs
           </a>
         </div>
+
+        {/* Supabase Auth Form */}
+        <AuthForm />
       </main>
+
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
         <a
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
