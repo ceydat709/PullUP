@@ -1,59 +1,69 @@
-'use client'
-import { useState } from 'react'
-import supabase from '@/lib/supabaseClient'
-import { useSupabaseAuth } from '@/hooks/useSupabaseAuth'
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'; 
 
 export default function AuthForm() {
-  const [emailInput, setEmailInput] = useState('')
-  const [sent, setSent] = useState(false)
-  const { user } = useSupabaseAuth()
+  const supabase = createClientComponentClient();
+  const router = useRouter();
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
-    const { error } = await supabase.auth.signInWithOtp({ email: emailInput })
-    if (!error) setSent(true)
-  }
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut()
-  }
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
 
-  if (user) {
-    return (
-      <div className="text-center space-y-4">
-        <p className="text-green-600">Signed in as <strong>{user.email}</strong></p>
-        <button
-          onClick={handleLogout}
-          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-        >
-          Log out
-        </button>
-      </div>
-    )
+    const { error } = isSignUp
+      ? await supabase.auth.signUp({ email, password })
+      : await supabase.auth.signInWithPassword({ email, password });
+
+    setLoading(false);
+    if (error) {
+      alert(error.message);
+    } else {
+      router.push('/dashboard');
+    }
   }
 
   return (
-    <form onSubmit={handleLogin} className="space-y-4">
-      {sent ? (
-        <p className="text-green-500">Check your email for the magic link!</p>
-      ) : (
-        <>
-          <input
-            type="email"
-            placeholder="Enter your email"
-            value={emailInput}
-            onChange={(e) => setEmailInput(e.target.value)}
-            className="border p-2 rounded w-full"
-            required
-          />
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          >
-            Sign In / Sign Up
-          </button>
-        </>
-      )}
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-sm mx-auto mt-10 p-4 border rounded shadow space-y-4"
+    >
+      <h2 className="text-2xl font-bold">{isSignUp ? 'Sign Up' : 'Log In'}</h2>
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className="w-full p-2 border rounded"
+        required
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        className="w-full p-2 border rounded"
+        required
+      />
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full bg-black text-white p-2 rounded"
+      >
+        {loading ? 'Loading...' : isSignUp ? 'Sign Up' : 'Log In'}
+      </button>
+      <p
+        className="text-sm text-center cursor-pointer text-blue-600"
+        onClick={() => setIsSignUp(!isSignUp)}
+      >
+        {isSignUp ? 'Already have an account? Log In' : 'New here? Sign Up'}
+      </p>
     </form>
-  )
+  );
 }
