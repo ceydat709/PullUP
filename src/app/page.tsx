@@ -24,13 +24,14 @@ export default function HomePage() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-between px-6 py-8 bg-white">
       {/* Sign In button */}
-      <div className="w-full flex justify-end">
+      <div className="w-full flex justify-end gap-4">
         <Link href="/login">
-          <button className="bg-black text-cyan-300 font-bold px-6 py-2 text-lg rounded-full hover:opacity-90 transition">
+          <button className="bg-black text-[#9BD4D3] font-bold px-6 py-2 text-lg rounded-full hover:opacity-90 transition">
             Sign In
           </button>
         </Link>
       </div>
+
 
       {/* Logo with scrolling background text */}
       <div className="relative w-screen flex flex-col items-center justify-center mt-20 mb-8">
@@ -72,7 +73,7 @@ export default function HomePage() {
         </div>
 
         {/* Tagline below logo */}
-        <p className="text-2xl font-semibold text-black z-10 mt-4">
+        <p className="text-2xl text-black z-10 mt-4">
           Make Plans that Leave the Group Chat.
         </p>
       </div>

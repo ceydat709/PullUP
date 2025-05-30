@@ -69,3 +69,50 @@ body {
 .delay-7 { animation-delay: 3.5s; }
 .delay-8 { animation-delay: 4s; }
 .delay-9 { animation-delay: 4.5s; }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Text input styles */
+input {
+  @apply w-full p-2 rounded border text-gray-900 placeholder-gray-400;
+}
+
+/* Form container */
+.auth-container {
+  @apply bg-gray-100 rounded-3xl shadow-xl p-8 max-w-sm w-full mx-auto text-center;
+}
+
+/* Header title */
+.auth-title {
+  @apply text-2xl font-bold mb-6 text-gray-900 flex items-center justify-center gap-2;
+}
+
+/* Submit button */
+.auth-button {
+  @apply w-full bg-black text-white p-2 rounded font-medium hover:opacity-90 transition;
+}
+
+/* Link below form */
+.auth-toggle-text {
+  @apply text-sm mt-4 text-gray-700;
+}
+
+/* Divider */
+.auth-divider {
+  @apply my-4 flex items-center gap-4;
+}
+
+.auth-divider hr {
+  @apply flex-grow border-gray-300;
+}
+
+.auth-divider span {
+  @apply text-sm text-gray-500;
+}
+
+/* Google button */
+.auth-google {
+  @apply w-full border border-black rounded p-2 flex items-center justify-center gap-2 hover:bg-gray-200;
+}
