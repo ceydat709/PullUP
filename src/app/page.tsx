@@ -1,4 +1,3 @@
-// src/app/page.tsx
 'use client';
 
 import React, { useState } from 'react';
@@ -6,8 +5,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import DiceLink from '../components/DiceLink';
 
+const scrollingWords = [
+  'Trip', 'Hangout', 'Dinner', 'Picnic', 'Study',
+  'Game Night', 'Hike', 'Chill', 'Party', 'Museum'
+];
+
 export default function HomePage() {
-  // 1) Your three preview images
   const previews = [
     '/media/dashboardpage.png',
     '/media/searchpage.png',
@@ -19,7 +22,7 @@ export default function HomePage() {
   const next = () => setIdx((idx + 1) % previews.length);
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-between px-6 py-8 bg-white shadow-md hover:shadow-lg transition">
+    <main className="min-h-screen flex flex-col items-center justify-between px-6 py-8 bg-white">
       {/* Sign In button */}
       <div className="w-full flex justify-end">
         <Link href="/login">
@@ -29,27 +32,68 @@ export default function HomePage() {
         </Link>
       </div>
 
-      {/* Logo & tagline */}
-      <div className="flex flex-col items-center text-center">
-        <Image
-          src="/media/Logo.png"
-          alt="PullUP Logo"
-          width={750}
-          height={150}
-          priority
-        />
-        <p className="text-2xl font-semibold mt-2 mb-4 text-black">
+      {/* Logo with scrolling background text */}
+      <div className="relative w-screen flex flex-col items-center justify-center mt-20 mb-8">
+        {/* Scrolling text behind logo */}
+        <div className="absolute top-[calc(50%-0.5px)] left-0 w-screen flex items-center overflow-hidden z-0 pointer-events-none">
+          <div className="marquee-track">
+            <div className="marquee-content text-4xl font-bold text-[#9BD4D3]">
+              {scrollingWords.map((word, i) => (
+                <span
+                  key={`${word}-${i}`}
+                  className={`inline-block mx-8 animate-fade-word delay-${i % 10}`}
+                >
+                  {word}
+                </span>
+              ))}
+            </div>
+            <div className="marquee-content text-4xl font-bold text-[#9BD4D3]">
+              {scrollingWords.map((word, i) => (
+                <span
+                  key={`copy-${word}-${i}`}
+                  className={`inline-block mx-8 animate-fade-word delay-${i % 10}`}
+                >
+                  {word}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Foreground logo */}
+        <div className="relative z-10">
+          <Image
+            src="/media/Logo.png"
+            alt="PullUP Logo"
+            width={750}
+            height={150}
+            priority
+          />
+        </div>
+
+        {/* Tagline below logo */}
+        <p className="text-2xl font-semibold text-black z-10 mt-4">
           Make Plans that Leave the Group Chat.
         </p>
       </div>
 
       {/* Dice links */}
-      <div className="flex justify-center gap-32 mt-6 mb-12">
-        <DiceLink label="Create Plan" href="/create" rotation="left" />
-        <DiceLink label="Search Plan" href="/search" rotation="right" />
+      <div className="flex flex-row justify-center gap-12 mt-6 mb-12">
+        <DiceLink
+          label="Create Plan"
+          href="/create"
+          rotation="left"
+          textPosition="above"
+        />
+        <DiceLink
+          label="Search Plan"
+          href="/search"
+          rotation="right"
+          textPosition="below"
+        />
       </div>
 
-      {/* Centered 3-screen carousel */}
+      {/* 3-screen carousel */}
       <div className="w-full flex justify-center items-center space-x-6 my-8">
         <button
           onClick={prev}
