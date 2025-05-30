@@ -26,7 +26,7 @@ export default function HomePage() {
       {/* Sign In button */}
       <div className="w-full flex justify-end gap-4">
         <Link href="/login">
-          <button className="bg-black text-[#9BD4D3] font-bold px-6 py-2 text-lg rounded-full hover:opacity-90 transition">
+          <button className="bg-black text-[#9BD4D3] font-bold px-8 py-3 text-2xl rounded-full hover:opacity-90 transition">
             Sign In
           </button>
         </Link>
@@ -34,7 +34,7 @@ export default function HomePage() {
 
 
       {/* Logo with scrolling background text */}
-      <div className="relative w-screen flex flex-col items-center justify-center mt-20 mb-8">
+      <div className="relative w-screen flex flex-col items-center justify-center mt-16 mb-8">
         {/* Scrolling text behind logo */}
         <div className="absolute top-[calc(50%-0.5px)] left-0 w-screen flex items-center overflow-hidden z-0 pointer-events-none">
           <div className="marquee-track">
@@ -73,7 +73,7 @@ export default function HomePage() {
         </div>
 
         {/* Tagline below logo */}
-        <p className="text-2xl text-black z-10 mt-4">
+        <p className="text-2xl text-black z-2 -mt-2 ml-6">
           Make Plans that Leave the Group Chat.
         </p>
       </div>
