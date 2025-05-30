@@ -119,3 +119,42 @@ input {
 .auth-google {
   @apply w-full border border-black rounded p-2 flex items-center justify-center gap-2 hover:bg-gray-200;
 }
+
+@keyframes spin-die {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin-on-hover:hover {
+  animation: spin-die 0.6s ease-in-out;
+}
+
+@keyframes spin-cw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-ccw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.spin-cw:hover {
+  animation: spin-cw 1s linear infinite;
+}
+
+.spin-ccw:hover {
+  animation: spin-ccw 1s linear infinite;
+}

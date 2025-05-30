@@ -32,9 +32,8 @@ export default function HomePage() {
         </Link>
       </div>
 
-
       {/* Logo with scrolling background text */}
-      <div className="relative w-screen flex flex-col items-center justify-center mt-16 mb-8">
+      <div className="relative w-screen flex flex-col items-center justify-center mt-5 mb-8">
         {/* Scrolling text behind logo */}
         <div className="absolute top-[calc(50%-0.5px)] left-0 w-screen flex items-center overflow-hidden z-0 pointer-events-none">
           <div className="marquee-track">
@@ -79,7 +78,7 @@ export default function HomePage() {
       </div>
 
       {/* Dice links */}
-      <div className="flex flex-row justify-center gap-12 mt-6 mb-12">
+      <div className="flex flex-row justify-center mt-6 mb-12">
         <DiceLink
           label="Create Plan"
           href="/create"
