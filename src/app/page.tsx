@@ -26,7 +26,7 @@ export default function HomePage() {
       {/* Sign In button */}
       <div className="w-full flex justify-end gap-4">
         <Link href="/login">
-          <button className="bg-black text-[#9BD4D3] font-bold px-8 py-3 text-2xl rounded-full hover:opacity-90 transition">
+          <button className="bg-black text-[#9BD4D3] font-bold px-8 py-3 text-2xl rounded-full hover:opacity-70 transition">
             Sign In
           </button>
         </Link>
@@ -103,7 +103,7 @@ export default function HomePage() {
           ←
         </button>
 
-        <div className="relative w-[650px] max-w-full aspect-[4/3] border-4 border-black rounded-2xl shadow-lg overflow-hidden">
+        <div className="relative w-[950px] max-w-full aspect-[4/3] border-3 border-black rounded-3xl shadow-lg overflow-hidden">
           <Image
             src={previews[idx]}
             alt={`Preview screen ${idx + 1}`}
