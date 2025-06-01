@@ -1,3 +1,4 @@
+// src/components/AuthForm.tsx
 'use client';
 
 import { useState } from 'react';
@@ -29,12 +30,21 @@ export default function AuthForm() {
       : await supabase.auth.signInWithPassword({ email, password });
 
     setLoading(false);
-    if (error) alert(error.message);
-    else router.push('/dashboard');
+
+    if (error) {
+      alert(error.message);
+    } else {
+      router.push('/dashboard');
+    }
   }
 
   async function handleGoogleSignIn() {
-    await supabase.auth.signInWithOAuth({ provider: 'google' });
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/dashboard`,
+      },
+    });
   }
 
   return (
@@ -52,6 +62,7 @@ export default function AuthForm() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
+              className="w-full border px-3 py-2 rounded"
             />
             <input
               type="tel"
@@ -59,6 +70,7 @@ export default function AuthForm() {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               required
+              className="w-full border px-3 py-2 rounded"
             />
           </>
         )}
@@ -68,6 +80,7 @@ export default function AuthForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          className="w-full border px-3 py-2 rounded"
         />
         <input
           type="password"
@@ -75,17 +88,18 @@ export default function AuthForm() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          className="w-full border px-3 py-2 rounded"
         />
         <button
           type="submit"
           disabled={loading}
-          className="auth-button"
+          className="auth-button w-full bg-blue-600 text-white py-2 rounded"
         >
           {loading ? 'Loading...' : isSignUp ? 'Sign Up' : 'Log In'}
         </button>
       </form>
 
-      <p className="auth-toggle-text">
+      <p className="auth-toggle-text mt-4 text-center">
         {isSignUp ? 'Already have an account?' : 'New here?'}{' '}
         <span
           onClick={() => setIsSignUp(!isSignUp)}
@@ -95,15 +109,15 @@ export default function AuthForm() {
         </span>
       </p>
 
-      <div className="auth-divider">
-        <hr />
-        <span>or</span>
-        <hr />
+      <div className="auth-divider flex items-center my-4">
+        <hr className="flex-grow border-gray-300" />
+        <span className="mx-2 text-gray-500">or</span>
+        <hr className="flex-grow border-gray-300" />
       </div>
 
       <button
         onClick={handleGoogleSignIn}
-        className="auth-google"
+        className="auth-google inline-flex items-center justify-center gap-2 w-full border px-4 py-2 rounded hover:bg-gray-100"
       >
         <FcGoogle className="text-xl" />
         Sign {isSignUp ? 'up' : 'in'} with Google
