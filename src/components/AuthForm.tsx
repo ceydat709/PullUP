@@ -34,7 +34,7 @@ export default function AuthForm() {
     if (error) {
       alert(error.message);
     } else {
-      router.push('/dashboard');
+      router.push('/home');
     }
   }
 
@@ -42,7 +42,7 @@ export default function AuthForm() {
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/dashboard`,
+        redirectTo: `${window.location.origin}/home`,
       },
     });
   }
