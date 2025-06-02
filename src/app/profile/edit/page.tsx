@@ -24,11 +24,10 @@ export default function EditProfilePage() {
         return;
       }
       const user = session.user;
-      const { name: storedName, phone: storedPhone, avatar_url } = user
-        .user_metadata as { name?: string; phone?: string; avatar_url?: string };
-      if (storedName) setName(storedName);
-      if (storedPhone) setPhone(storedPhone);
-      if (avatar_url) setAvatarPreview(avatar_url);
+      const meta = user.user_metadata as { name?: string; phone?: string; avatar_url?: string };
+      if (meta.name) setName(meta.name);
+      if (meta.phone) setPhone(meta.phone);
+      if (meta.avatar_url) setAvatarPreview(meta.avatar_url);
     });
   }, [supabase, router]);
 
@@ -92,42 +91,31 @@ export default function EditProfilePage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="flex h-full px-8 py-6">
+      <div className="flex h-screen">
         {/* Sidebar */}
         <aside className="w-60 pr-6 border-r border-gray-200">
-          <h2 className="text-2xl font-bold text-teal-600 mb-4">Dashboard</h2>
-          <nav className="flex flex-col space-y-2">
-            <Link
-              href="/dashboard"
-              className="text-lg text-gray-700 hover:text-teal-600"
-            >
-              Home
+          <nav className="flex flex-col space-y-2 px-4 py-2">
+            <Link href="/dashboard">
+              <span className="text-gray-700 hover:text-teal-600 text-lg">Dashboard</span>
             </Link>
-            <Link
-              href="/search"
-              className="text-lg text-gray-700 hover:text-teal-600"
-            >
-              Search
+            <Link href="/search">
+              <span className="text-gray-700 hover:text-teal-600 text-lg">Search</span>
             </Link>
-            <Link
-              href="/create"
-              className="text-lg text-gray-700 hover:text-teal-600"
-            >
-              Create
+            <Link href="/create">
+              <span className="text-gray-700 hover:text-teal-600 text-lg">Create</span>
             </Link>
-            <Link
-              href="/profile/edit"
-              className="text-lg text-teal-600 font-semibold"
-            >
-              Edit Profile
+            <Link href="/profile/edit">
+              <span className="text-teal-600 font-semibold text-lg">Edit Profile</span>
             </Link>
           </nav>
         </aside>
 
         {/* Main content */}
-        <main className="flex-1 flex items-center justify-center">
+        <main className="flex-1 flex items-center justify-center px-8">
           <div className="w-full max-w-md bg-gray-50 shadow-md rounded-lg p-6">
-            <h2 className="text-2xl font-semibold mb-4 text-teal-600">Edit Profile</h2>
+            <h2 className="text-2xl font-semibold mb-4 text-teal-600 text-center">
+              Edit Profile
+            </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Name */}
               <label className="block">
