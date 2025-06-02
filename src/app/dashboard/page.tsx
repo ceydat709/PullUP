@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
@@ -16,12 +17,13 @@ export default function DashboardPage() {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
 
-  // Carousel state
+  // Carousel state (same as before)
   const [badgeIdx, setBadgeIdx] = useState(0);
   const [albumIdx, setAlbumIdx] = useState(0);
   const [friendIdx, setFriendIdx] = useState(0);
 
-  // Sample/static data for streaks, badges, friends, etc.
+  // Static sample data for streaks, badges, and friends
+  // In a real app, you might fetch these from a table instead of hard‐coding.
   const sampleStreaks = [3, 1, 1];
   const sampleBadges = [
     '/media/badge-camera.png',
@@ -29,6 +31,8 @@ export default function DashboardPage() {
     '/media/badge-hamster.png',
   ];
   const sampleFriends = ['/media/friend-placeholder.png'];
+
+  // Static sample upcomingPlans and photoAlbums as before
   const upcomingPlans = [
     { id: 'new', color: 'bg-black', border: '' },
     { id: 1, color: 'bg-gray-400', border: 'border-4 border-green-900' },
@@ -41,7 +45,7 @@ export default function DashboardPage() {
     { id: 'album2', src: '/media/photo-album-2.jpg' },
   ];
 
-  // Utility to get exactly 3 visible items (wrapping around) for carousels
+  // Utility to get 3 visible items for a carousel
   const getVisible = <T,>(arr: T[], idx: number) => {
     const visibleCount = 3;
     if (arr.length <= visibleCount) return arr;
@@ -52,13 +56,14 @@ export default function DashboardPage() {
     ];
   };
 
-  // On mount, fetch session and user_metadata
+  // On mount, load user session & metadata
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (!session) {
         router.replace('/login');
       } else {
         const { user } = session;
+        // Pull from user_metadata:
         const meta = user.user_metadata as {
           name?: string;
           phone?: string;
@@ -71,7 +76,7 @@ export default function DashboardPage() {
     });
   }, [supabase, router]);
 
-  // Sign-out handler
+  // Sign out function
   const signOut = async () => {
     await supabase.auth.signOut();
     router.push('/login');
@@ -87,22 +92,27 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-white px-8 py-6">
-      <div className="flex justify-between">
-        {/* Left Column */}
-        <div className="flex-1 pr-6">
-          {/* Sidebar header with vertical nav */}
-          <div className="mb-6">
-            <h2 className="text-3xl font-bold text-teal-600">Dashboard</h2>
-            <div className="mt-2 flex flex-col space-y-2">
-              <a href="/search" className="text-lg hover:underline">
-                Search
-              </a>
-              <a href="/create" className="text-lg hover:underline">
-                Create
-              </a>
-            </div>
-          </div>
+      <div className="flex">
+        {/* Sidebar */}
+        <aside className="w-60 pr-6 border-r border-gray-200">
+          <nav className="flex flex-col space-y-2 px-4 py-2">
+            <Link href="/dashboard">
+              <span className="text-teal-600 font-semibold text-lg">Dashboard</span>
+            </Link>
+            <Link href="/search">
+              <span className="text-gray-700 hover:text-teal-600 text-lg">Search</span>
+            </Link>
+            <Link href="/create">
+              <span className="text-gray-700 hover:text-teal-600 text-lg">Create</span>
+            </Link>
+            <Link href="/profile/edit">
+              <span className="text-gray-700 hover:text-teal-600 text-lg">Edit Profile</span>
+            </Link>
+          </nav>
+        </aside>
 
+        {/* Main Column */}
+        <div className="flex-1 pl-6">
           {/* Upcoming Plans Section */}
           <div className="mb-10">
             <h3 className="text-2xl font-semibold text-teal-600 mb-4">
@@ -181,34 +191,24 @@ export default function DashboardPage() {
 
         {/* Right Column */}
         <div className="w-80 flex-shrink-0 border-l border-gray-200 pl-6">
-          {/* User Info + Edit Button */}
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center">
-              {avatarUrl ? (
-                <Image
-                  src={avatarUrl}
-                  alt="User avatar"
-                  width={48}
-                  height={48}
-                  className="rounded-full object-cover mr-4"
-                />
-              ) : (
-                <div className="h-12 w-12 bg-red-500 rounded-full flex items-center justify-center text-white text-lg font-semibold mr-4">
-                  {userName.charAt(0).toUpperCase()}
-                </div>
-              )}
-              <div>
-                <h3 className="text-2xl font-bold">{userName}</h3>
+          {/* User Info */}
+          <div className="flex items-center mb-8">
+            {avatarUrl ? (
+              <Image
+                src={avatarUrl}
+                alt="User avatar"
+                width={48}
+                height={48}
+                className="rounded-full object-cover mr-4"
+              />
+            ) : (
+              <div className="h-12 w-12 bg-red-500 rounded-full flex items-center justify-center text-white text-lg font-semibold mr-4">
+                {userName.charAt(0).toUpperCase()}
               </div>
+            )}
+            <div>
+              <h3 className="text-2xl font-bold">{userName}</h3>
             </div>
-
-            {/* ← New Edit Profile button */}
-            <button
-              onClick={() => router.push('/profile/edit')}
-              className="text-sm text-teal-600 hover:underline"
-            >
-              Edit Profile
-            </button>
           </div>
 
           {/* Streaks Section */}
