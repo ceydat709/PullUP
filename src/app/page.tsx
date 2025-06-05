@@ -16,7 +16,7 @@ export default function HomePage() {
     '/media/searchpage.png',
     '/media/createpage.png',
   ];
-  const [idx, setIdx] = useState(0);
+  const [idx, setIdx] = useState(0);0
 
   const prev = () => setIdx((idx - 1 + previews.length) % previews.length);
   const next = () => setIdx((idx + 1) % previews.length);
@@ -81,13 +81,13 @@ export default function HomePage() {
       <div className="flex flex-row justify-center mt-6 mb-12">
         <DiceLink
           label="Create Plan"
-          href="/create"
+          href="/login"
           rotation="left"
           textPosition="above"
         />
         <DiceLink
           label="Search Plan"
-          href="/search"
+          href="/login"
           rotation="right"
           textPosition="below"
         />
